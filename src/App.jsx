@@ -1,13 +1,19 @@
+import { Route, Routes } from "react-router";
 import Navbar from "./components/Navbar";
 import JobsPage from "./pages/JobsPage";
+import RootLayout from "./layouts/RootLayout";
+import SkeletonCard from "./components/SkeletonCard";
+import JobDetails from "./pages/JobDetails";
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar />
-      <main className="max-w-5xl mx-auto px-6 py-8">
-        <JobsPage />
-      </main>
-    </div>
+    <>
+      <Routes>
+        <Route path="/" element={<RootLayout />}>
+          <Route index element={<JobsPage />} />
+          <Route path="/job/:id" element={<JobDetails />}></Route>
+        </Route>
+      </Routes>
+    </>
   );
 }

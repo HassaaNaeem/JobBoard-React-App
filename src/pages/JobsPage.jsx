@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import Filterbar from "../components/Filterbar";
 import JobCard from "../components/JobCard";
 import SkeletonCard from "../components/SkeletonCard";
@@ -18,7 +19,9 @@ function JobsPage() {
       {/* Job cards */}
       <ul className="space-y-3">
         {JOBS.map((job) => (
-          <JobCard key={job.id} job={job} />
+          <Link to={`job/${job.id}`}>
+            <JobCard key={job.id} job={job} />
+          </Link>
         ))}
       </ul>
 

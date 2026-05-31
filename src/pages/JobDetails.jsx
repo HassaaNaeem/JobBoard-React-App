@@ -1,13 +1,19 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { JOBS } from "../data/jobs";
+import { useSavedJobs } from "../context/SavedJobsContext";
 
 function JobDetails() {
   let { id } = useParams();
+  const navigate = useNavigate();
+  const { save } = useSavedJobs();
   const job = JOBS[id - 1];
 
   return (
     <div>
-      <span className="flex items-center gap-1.5 text-sm text-gray-400 mb-6 cursor-pointer hover:text-gray-900 transition-colors w-fit">
+      <span
+        onClick={() => navigate(-1)}
+        className="flex items-center gap-1.5 text-sm text-gray-400 mb-6 cursor-pointer hover:text-gray-900 transition-colors w-fit"
+      >
         ← Back to jobs
       </span>
 
@@ -95,9 +101,15 @@ function JobDetails() {
             </a>
             {/* saved state: bg-gray-50 border-gray-200 text-gray-900 font-medium */}
             {/* unsaved state: border-gray-200 text-gray-500 */}
-            <span className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl border text-sm border-gray-200 text-gray-500 cursor-pointer">
+            <button
+              onClick={() => {
+                save(job.id);
+                navigate("/saved");
+              }}
+              className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl border text-sm border-gray-200 text-gray-500 cursor-pointer"
+            >
               ♡ Save job
-            </span>
+            </button>
           </div>
 
           <div className="bg-white rounded-2xl border border-gray-100 p-5">

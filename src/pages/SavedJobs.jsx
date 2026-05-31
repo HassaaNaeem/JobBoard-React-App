@@ -1,8 +1,11 @@
 import EmptyState from "../components/EmptyState";
+import { useSavedJobs } from "../context/SavedJobsContext";
 import { JOBS } from "../data/jobs";
 
 function SavedJobs() {
-  const saved = JOBS.filter((j) => j.saved);
+  const { savedIds, unsave } = useSavedJobs();
+  // const saved = JOBS.filter((job) => savedIds.includes(job.id)); // was not in saving order
+  const saved = savedIds.map((id) => JOBS.find((job) => job.id == id)); // in order which user saves Job (most recent saved job => on top of saved page,)
 
   return (
     <div>
@@ -33,9 +36,15 @@ function SavedJobs() {
                       {job.company} · {job.location}
                     </p>
                   </div>
-                  <span className="shrink-0 text-xs text-gray-400 hover:text-red-400 transition-colors px-2 py-1 rounded-lg hover:bg-red-50 cursor-pointer">
-                    ♥ Unsave
-                  </span>
+                  <button
+                    onClick={() => {
+                      unsave(job.id);
+                    }}
+                  >
+                    <span className="shrink-0 text-xs text-gray-400 hover:text-red-400 transition-colors px-2 py-1 rounded-lg hover:bg-red-50 cursor-pointer">
+                      ♥ Unsave
+                    </span>
+                  </button>
                 </div>
                 <div className="flex flex-wrap gap-1.5 mt-3">
                   <span

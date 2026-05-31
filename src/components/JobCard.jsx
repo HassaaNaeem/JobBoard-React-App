@@ -1,4 +1,7 @@
+import { useSavedJobs } from "../context/SavedJobsContext";
+
 function JobCard({ job }) {
+  const { savedIds, save, unsave } = useSavedJobs();
   return (
     <li className="group bg-white rounded-2xl border border-gray-100 p-5 cursor-pointer hover:border-gray-200 hover:shadow-sm transition-all">
       <div className="flex items-start gap-4">
@@ -18,9 +21,18 @@ function JobCard({ job }) {
             </div>
             {/* saved: text-gray-900, unsaved: text-gray-200 */}
             <span
-              className={`text-base ${job.saved ? "text-gray-900" : "text-gray-200"}`}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (savedIds.includes(job.id)) {
+                  unsave(job.id);
+                  return;
+                }
+                save(job.id);
+              }}
+              className={`text-base ${savedIds.includes(job.id) ? "text-gray-900" : "text-gray-200"}`}
             >
-              {job.saved ? "♥" : "♡"}
+              {savedIds.includes(job.id) ? "♥" : "♡"}
             </span>
           </div>
 

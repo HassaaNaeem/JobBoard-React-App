@@ -5,7 +5,7 @@ import { useSavedJobs } from "../context/SavedJobsContext";
 function JobDetails() {
   let { id } = useParams();
   const navigate = useNavigate();
-  const { save } = useSavedJobs();
+  const { save, savedIds, unsave } = useSavedJobs();
   const job = JOBS[id - 1];
 
   return (
@@ -103,12 +103,15 @@ function JobDetails() {
             {/* unsaved state: border-gray-200 text-gray-500 */}
             <button
               onClick={() => {
-                save(job.id);
-                navigate("/saved");
+                if (savedIds.includes(job.id)) unsave(job.id);
+                else {
+                  save(job.id);
+                  navigate("/saved");
+                }
               }}
               className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl border text-sm border-gray-200 text-gray-500 cursor-pointer"
             >
-              ♡ Save job
+              {savedIds.includes(job.id) ? "♥ Unsave Job" : "♡ Save job"}
             </button>
           </div>
 

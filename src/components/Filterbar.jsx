@@ -3,7 +3,8 @@ import { CATEGORIES, JOB_TYPES } from "../data/jobs";
 import { useSavedJobs } from "../context/SavedJobsContext";
 
 function Filterbar() {
-  const { setJobType, jobType } = useSavedJobs();
+  const { setJobType, jobType, setJobCategory, activeJobCategory } =
+    useSavedJobs();
   return (
     <>
       {/* Search */}
@@ -38,16 +39,17 @@ function Filterbar() {
       {/* Category pills */}
       <div className="flex gap-2 flex-wrap mb-8">
         {CATEGORIES.map((cat) => (
-          <span
+          <button
+            onClick={(e) => setJobCategory(e.currentTarget.innerText)}
             key={cat}
             className={`text-xs px-3 py-1.5 rounded-full border cursor-pointer ${
-              cat === "All"
+              cat == activeJobCategory
                 ? "bg-gray-100 text-gray-900 border-gray-300 font-medium"
                 : "bg-white text-gray-400 border-gray-100"
             }`}
           >
             {cat}
-          </span>
+          </button>
         ))}
       </div>
     </>

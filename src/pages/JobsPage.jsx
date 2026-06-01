@@ -6,9 +6,20 @@ import { CATEGORIES, JOB_TYPES, JOBS } from "../data/jobs";
 import { useSavedJobs } from "../context/SavedJobsContext";
 
 function JobsPage() {
-  const { jobType } = useSavedJobs();
+  const { jobType, activeJobCategory } = useSavedJobs();
   const filteredJobs =
-    jobType == "All" ? JOBS : JOBS.filter((job) => job.type == jobType);
+    jobType == "All" && activeJobCategory == "All"
+      ? JOBS
+      : JOBS.filter(
+          (job) => job.type == jobType && job.category == activeJobCategory,
+        );
+  // const filteredJobs =
+  //   jobType == "All"
+  //     ? activeJobCategory == "All"
+  //       ? JOBS
+  //       : JOBS.filter((job) => job.category == activeJobCategory)
+  //     : JOBS.filter((job) => job.type == jobType);
+
   return (
     <div>
       <div className="mb-6">

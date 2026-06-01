@@ -3,8 +3,12 @@ import Filterbar from "../components/Filterbar";
 import JobCard from "../components/JobCard";
 import SkeletonCard from "../components/SkeletonCard";
 import { CATEGORIES, JOB_TYPES, JOBS } from "../data/jobs";
+import { useSavedJobs } from "../context/SavedJobsContext";
 
 function JobsPage() {
+  const { jobType } = useSavedJobs();
+  const filteredJobs =
+    jobType == "All" ? JOBS : JOBS.filter((job) => job.type == jobType);
   return (
     <div>
       <div className="mb-6">
@@ -18,7 +22,7 @@ function JobsPage() {
 
       {/* Job cards */}
       <ul className="space-y-3">
-        {JOBS.map((job) => (
+        {filteredJobs.map((job) => (
           <Link to={`job/${job.id}`}>
             <JobCard key={job.id} job={job} />
           </Link>

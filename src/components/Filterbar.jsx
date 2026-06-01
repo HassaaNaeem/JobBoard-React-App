@@ -1,7 +1,9 @@
 import React from "react";
 import { CATEGORIES, JOB_TYPES } from "../data/jobs";
+import { useSavedJobs } from "../context/SavedJobsContext";
 
 function Filterbar() {
+  const { setJobType, jobType } = useSavedJobs();
   return (
     <>
       {/* Search */}
@@ -19,16 +21,17 @@ function Filterbar() {
       {/* Type pills */}
       <div className="flex gap-2 flex-wrap mb-3">
         {JOB_TYPES.map((type) => (
-          <span
+          <button
+            onClick={(e) => setJobType(e.currentTarget.innerText)}
             key={type}
             className={`text-xs px-3 py-1.5 rounded-full border cursor-pointer ${
-              type === "All"
+              type === jobType
                 ? "bg-gray-900 text-white border-gray-900"
                 : "bg-white text-gray-500 border-gray-200"
             }`}
           >
             {type}
-          </span>
+          </button>
         ))}
       </div>
 

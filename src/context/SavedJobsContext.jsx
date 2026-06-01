@@ -13,7 +13,7 @@ async function fetchJobs() {
 const jobs = await fetchJobs();
 console.log(jobs);
 
-const initialState = { savedIds: ["2"] };
+const initialState = { savedIds: ["2"], jobType: "All" };
 
 function reducer(state, action) {
   console.log(state, action);
@@ -28,21 +28,30 @@ function reducer(state, action) {
           (sid) => Number(sid) !== Number(action.payload),
         ),
       };
+    case "setJobType":
+      return { ...state, jobType: action.payload };
   }
 }
 
 function SavedJobsProvider({ children }) {
-  const [{ savedIds }, dispatch] = useReducer(reducer, initialState);
+  const [{ savedIds, jobType }, dispatch] = useReducer(reducer, initialState);
 
   function save(jobId) {
     dispatch({ type: "save", payload: jobId });
   }
+
   function unsave(jobId) {
     dispatch({ type: "unsave", payload: jobId });
   }
 
+  function setJobType(type) {
+    dispatch({ type: "setJobType", payload: type });
+  }
+
   return (
-    <SavedJobsContext.Provider value={{ savedIds, save, unsave }}>
+    <SavedJobsContext.Provider
+      value={{ savedIds, save, unsave, setJobType, jobType }}
+    >
       {children}
     </SavedJobsContext.Provider>
   );

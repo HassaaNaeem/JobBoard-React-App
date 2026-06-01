@@ -5,6 +5,7 @@ import RootLayout from "./layouts/RootLayout";
 import SkeletonCard from "./components/SkeletonCard";
 import JobDetails from "./pages/JobDetails";
 import SavedJobs from "./pages/SavedJobs";
+import NotFound from "./pages/NotFound";
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
           <Route index element={<JobsPage />} />
           <Route path="/job/:id" element={<JobDetails />}></Route>
           <Route path="/saved" element={<SavedJobs />}></Route>
+          <Route path="*" element={<NotFound />}></Route>
         </Route>
       </Routes>
     </>

@@ -4,22 +4,27 @@ import JobCard from "../components/JobCard";
 import SkeletonCard from "../components/SkeletonCard";
 import { CATEGORIES, JOB_TYPES, JOBS } from "../data/jobs";
 import { useSavedJobs } from "../context/SavedJobsContext";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import useDebounce from "../hooks/useDebounce";
 
 function JobsPage() {
   const [searchInput, setSearchInput] = useState("");
   const [searchParams] = useSearchParams();
   const jobType = searchParams.get("type") || "All";
   const category = searchParams.get("category") || "All";
+  const debouncedValue = useDebounce(searchInput, 500);
 
-  const filteredJobs = JOBS.filter((job) => {
-    const matchesType = jobType === "All" || job.type === jobType;
-    const matchesCategory = category === "All" || job.category === category;
+  const filteredJobs = useMemo(() => {
+    return JOBS.filter((job) => {
+      const matchesType = jobType === "All" || job.type === jobType;
+      const matchesCategory = category === "All" || job.category === category;
+      const matchesSearch = job.title
+        .toLowerCase()
+        .includes(debouncedValue.toLowerCase().trim());
 
-    return matchesType && matchesCategory;
-  }).filter((job) =>
-    job.title.toLowerCase().includes(searchInput.toLowerCase().trim()),
-  );
+      return matchesType && matchesCategory && matchesSearch;
+    });
+  });
 
   return (
     <div>

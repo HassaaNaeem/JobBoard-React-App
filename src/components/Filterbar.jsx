@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { CATEGORIES, JOB_TYPES } from "../data/jobs";
 import { useSavedJobs } from "../context/SavedJobsContext";
 import { useSearchParams } from "react-router";
+import useDebounce from "../hooks/useDebounce";
 
 function Filterbar({ searchInput, setSearchInput }) {
   const [searchParams, setSearchParams] = useSearchParams();

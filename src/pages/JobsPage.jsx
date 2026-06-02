@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import Filterbar from "../components/Filterbar";
 import JobCard from "../components/JobCard";
 import SkeletonCard from "../components/SkeletonCard";
@@ -8,12 +8,13 @@ import { useState } from "react";
 
 function JobsPage() {
   const [searchInput, setSearchInput] = useState("");
-  const { jobType, activeJobCategory } = useSavedJobs();
+  const [searchParams] = useSearchParams();
+  const jobType = searchParams.get("type") || "All";
+  const category = searchParams.get("category") || "All";
 
   const filteredJobs = JOBS.filter((job) => {
     const matchesType = jobType === "All" || job.type === jobType;
-    const matchesCategory =
-      activeJobCategory === "All" || job.category === activeJobCategory;
+    const matchesCategory = category === "All" || job.category === category;
 
     return matchesType && matchesCategory;
   }).filter((job) =>

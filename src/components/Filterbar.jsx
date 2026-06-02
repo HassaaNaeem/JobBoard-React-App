@@ -1,10 +1,23 @@
 import React, { useState } from "react";
 import { CATEGORIES, JOB_TYPES } from "../data/jobs";
 import { useSavedJobs } from "../context/SavedJobsContext";
+import { useSearchParams } from "react-router";
 
 function Filterbar({ searchInput, setSearchInput }) {
-  const { setJobType, jobType, setJobCategory, activeJobCategory } =
-    useSavedJobs();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const updateParam = (key, value) => {
+    const params = new URLSearchParams(searchParams);
+    if (value === "All") {
+      params.delete(key);
+    } else {
+      params.set(key, value);
+    }
+
+    setSearchParams(params);
+  };
+  const activeCategory = searchParams.get("category") || "All";
+  const activeType = searchParams.get("type") || "All";
+
   return (
     <>
       {/* Search */}
@@ -21,14 +34,15 @@ function Filterbar({ searchInput, setSearchInput }) {
         />
       </div>
 
-      {/* Type pills */}
       <div className="flex gap-2 flex-wrap mb-3">
         {JOB_TYPES.map((type) => (
           <button
-            onClick={(e) => setJobType(e.currentTarget.innerText)}
+            onClick={(e) => {
+              updateParam("type", type);
+            }}
             key={type}
             className={`text-xs px-3 py-1.5 rounded-full border cursor-pointer ${
-              type === jobType
+              type == activeType
                 ? "bg-gray-900 text-white border-gray-900"
                 : "bg-white text-gray-500 border-gray-200"
             }`}
@@ -42,10 +56,10 @@ function Filterbar({ searchInput, setSearchInput }) {
       <div className="flex gap-2 flex-wrap mb-8">
         {CATEGORIES.map((cat) => (
           <button
-            onClick={(e) => setJobCategory(e.currentTarget.innerText)}
+            onClick={(e) => updateParam("category", cat)}
             key={cat}
             className={`text-xs px-3 py-1.5 rounded-full border cursor-pointer ${
-              cat == activeJobCategory
+              cat == activeCategory
                 ? "bg-gray-100 text-gray-900 border-gray-300 font-medium"
                 : "bg-white text-gray-400 border-gray-100"
             }`}

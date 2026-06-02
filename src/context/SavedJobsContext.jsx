@@ -15,8 +15,6 @@ console.log(jobs);
 
 const initialState = {
   savedIds: ["2"],
-  jobType: "All",
-  activeJobCategory: "All",
 };
 
 function reducer(state, action) {
@@ -32,18 +30,11 @@ function reducer(state, action) {
           (sid) => Number(sid) !== Number(action.payload),
         ),
       };
-    case "setJobType":
-      return { ...state, jobType: action.payload };
-    case "setJobCategory":
-      return { ...state, activeJobCategory: action.payload };
   }
 }
 
 function SavedJobsProvider({ children }) {
-  const [{ savedIds, jobType, activeJobCategory }, dispatch] = useReducer(
-    reducer,
-    initialState,
-  );
+  const [{ savedIds }, dispatch] = useReducer(reducer, initialState);
 
   function save(jobId) {
     dispatch({ type: "save", payload: jobId });
@@ -53,24 +44,12 @@ function SavedJobsProvider({ children }) {
     dispatch({ type: "unsave", payload: jobId });
   }
 
-  function setJobType(type) {
-    dispatch({ type: "setJobType", payload: type });
-  }
-
-  function setJobCategory(category) {
-    dispatch({ type: "setJobCategory", payload: category });
-  }
-
   return (
     <SavedJobsContext.Provider
       value={{
         savedIds,
         save,
         unsave,
-        setJobType,
-        jobType,
-        activeJobCategory,
-        setJobCategory,
       }}
     >
       {children}

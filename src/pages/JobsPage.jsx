@@ -4,15 +4,21 @@ import JobCard from "../components/JobCard";
 import SkeletonCard from "../components/SkeletonCard";
 import { CATEGORIES, JOB_TYPES, JOBS } from "../data/jobs";
 import { useSavedJobs } from "../context/SavedJobsContext";
+import { useState } from "react";
 
 function JobsPage() {
+  const [searchInput, setSearchInput] = useState("");
   const { jobType, activeJobCategory } = useSavedJobs();
+
   const filteredJobs = JOBS.filter((job) => {
     const matchesType = jobType === "All" || job.type === jobType;
     const matchesCategory =
       activeJobCategory === "All" || job.category === activeJobCategory;
+
     return matchesType && matchesCategory;
-  });
+  }).filter((job) =>
+    job.title.toLowerCase().includes(searchInput.toLowerCase().trim()),
+  );
 
   return (
     <div>
@@ -23,7 +29,7 @@ function JobsPage() {
         </p>
       </div>
 
-      <Filterbar />
+      <Filterbar searchInput={searchInput} setSearchInput={setSearchInput} />
 
       {/* Job cards */}
       <ul className="space-y-3">

@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router";
+import { Navigate, Route, Routes } from "react-router";
 import Navbar from "./components/Navbar";
 import JobsPage from "./pages/JobsPage";
 import RootLayout from "./layouts/RootLayout";
@@ -13,6 +13,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<RootLayout />}>
           <Route index element={<JobsPage />} />
+          <Route path="/jobs" element={<Navigate to="/" replace />} />
           <Route path="/job/:id" element={<JobDetails />}></Route>
           <Route path="/saved" element={<SavedJobs />}></Route>
           <Route path="*" element={<NotFound />}></Route>

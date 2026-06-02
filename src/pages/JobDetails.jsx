@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import { JOBS } from "../data/jobs";
 import { useSavedJobs } from "../context/SavedJobsContext";
 
@@ -6,16 +6,16 @@ function JobDetails() {
   let { id } = useParams();
   const navigate = useNavigate();
   const { save, savedIds, unsave } = useSavedJobs();
-  const job = JOBS[id - 1];
+  const job = JOBS.find((job) => job.id == id);
 
   return (
     <div>
-      <span
-        onClick={() => navigate(-1)}
+      <Link
+        to={"/"}
         className="flex items-center gap-1.5 text-sm text-gray-400 mb-6 cursor-pointer hover:text-gray-900 transition-colors w-fit"
       >
         ← Back to jobs
-      </span>
+      </Link>
 
       <div className="grid grid-cols-3 gap-6">
         <div className="col-span-2 space-y-5">

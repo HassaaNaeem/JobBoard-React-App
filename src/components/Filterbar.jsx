@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { CATEGORIES, JOB_TYPES } from "../data/jobs";
 import { useSavedJobs } from "../context/SavedJobsContext";
 
-function Filterbar() {
+function Filterbar({ searchInput, setSearchInput }) {
   const { setJobType, jobType, setJobCategory, activeJobCategory } =
     useSavedJobs();
   return (
@@ -14,6 +14,8 @@ function Filterbar() {
         </span>
         <input
           type="text"
+          onChange={(e) => setSearchInput(e.target.value)}
+          value={searchInput}
           placeholder="Search by title, company, or skill…"
           className="w-full pl-8 pr-4 py-2.5 text-sm bg-white border border-gray-200 rounded-xl outline-none placeholder-gray-300"
         />

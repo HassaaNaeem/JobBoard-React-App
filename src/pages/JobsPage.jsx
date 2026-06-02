@@ -7,18 +7,12 @@ import { useSavedJobs } from "../context/SavedJobsContext";
 
 function JobsPage() {
   const { jobType, activeJobCategory } = useSavedJobs();
-  const filteredJobs =
-    jobType == "All" && activeJobCategory == "All"
-      ? JOBS
-      : JOBS.filter(
-          (job) => job.type == jobType && job.category == activeJobCategory,
-        );
-  // const filteredJobs =
-  //   jobType == "All"
-  //     ? activeJobCategory == "All"
-  //       ? JOBS
-  //       : JOBS.filter((job) => job.category == activeJobCategory)
-  //     : JOBS.filter((job) => job.type == jobType);
+  const filteredJobs = JOBS.filter((job) => {
+    const matchesType = jobType === "All" || job.type === jobType;
+    const matchesCategory =
+      activeJobCategory === "All" || job.category === activeJobCategory;
+    return matchesType && matchesCategory;
+  });
 
   return (
     <div>

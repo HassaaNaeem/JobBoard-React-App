@@ -6,19 +6,23 @@ import SkeletonCard from "./components/SkeletonCard";
 import JobDetails from "./pages/JobDetails";
 import SavedJobs from "./pages/SavedJobs";
 import NotFound from "./pages/NotFound";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export default function App() {
+  const queryClient = new QueryClient();
   return (
     <>
-      <Routes>
-        <Route path="/" element={<RootLayout />}>
-          <Route index element={<JobsPage />} />
-          <Route path="/jobs" element={<Navigate to="/" replace />} />
-          <Route path="/job/:id" element={<JobDetails />}></Route>
-          <Route path="/saved" element={<SavedJobs />}></Route>
-          <Route path="*" element={<NotFound />}></Route>
-        </Route>
-      </Routes>
+      <QueryClientProvider client={queryClient}>
+        <Routes>
+          <Route path="/" element={<RootLayout />}>
+            <Route index element={<JobsPage />} />
+            <Route path="/jobs" element={<Navigate to="/" replace />} />
+            <Route path="/job/:id" element={<JobDetails />}></Route>
+            <Route path="/saved" element={<SavedJobs />}></Route>
+            <Route path="*" element={<NotFound />}></Route>
+          </Route>
+        </Routes>
+      </QueryClientProvider>
     </>
   );
 }

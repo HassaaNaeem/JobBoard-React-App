@@ -1,9 +1,9 @@
 import React from "react";
 
-function SkeletonCard() {
+function SkeletonCard({ count }) {
   return (
-    <ul className="space-y-3 hidden">
-      {Array.from({ length: 4 }).map((_, i) => (
+    <ul className={`space-y-3`}>
+      {Array.from({ length: count }).map((_, i) => (
         <li
           key={i}
           className="bg-white rounded-2xl border border-gray-100 p-5 animate-pulse"

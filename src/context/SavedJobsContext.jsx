@@ -3,18 +3,8 @@ import { JOBS } from "../data/jobs";
 
 const SavedJobsContext = createContext();
 
-async function fetchJobs() {
-  const res = await fetch("http://localhost:3001/JOBS");
-  const data = await res.json();
-
-  return data;
-}
-
-const jobs = await fetchJobs();
-console.log(jobs);
-
 const initialState = {
-  savedIds: ["2"],
+  savedIds: [],
 };
 
 function reducer(state, action) {

@@ -2,23 +2,26 @@ import { Link } from "react-router";
 import EmptyState from "../components/EmptyState";
 import { useSavedJobs } from "../context/SavedJobsContext";
 import { JOBS } from "../data/jobs";
+import useJobs from "../hooks/useJobs";
+import { useQuery } from "@tanstack/react-query";
 
 function SavedJobs() {
   const { savedIds, unsave } = useSavedJobs();
   // const saved = JOBS.filter((job) => savedIds.includes(job.id)); // was not in saving order
-  const saved = savedIds.map((id) => JOBS.find((job) => job.id == id)); // in order which user saves Job (most recent saved job => on top of saved page,)
+  const { data } = useJobs();
+  const savedJobs = data?.filter((job) => savedIds.includes(job.id));
 
   return (
     <div>
       <div className="mb-6">
         <h1 className="text-xl font-semibold text-gray-900">Saved Jobs</h1>
         <p className="text-sm text-gray-400 mt-1">
-          {saved.length} positions saved
+          {savedJobs?.length} positions saved
         </p>
       </div>
 
       <ul className="space-y-3">
-        {saved.map((job) => (
+        {savedJobs?.map((job) => (
           <Link to={`../job/${job.id}`}>
             <li
               key={job.id}
@@ -81,8 +84,7 @@ function SavedJobs() {
         ))}
       </ul>
 
-      {/* Empty state — show when saved list is empty */}
-      <EmptyState />
+      {savedIds.length == 0 && <EmptyState />}
     </div>
   );
 }

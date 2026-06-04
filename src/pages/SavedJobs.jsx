@@ -4,6 +4,7 @@ import { useSavedJobs } from "../context/SavedJobsContext";
 import { JOBS } from "../data/jobs";
 import useJobs from "../hooks/useJobs";
 import { useQuery } from "@tanstack/react-query";
+import { formatDistanceToNow } from "date-fns";
 
 function SavedJobs() {
   const { savedIds, unsave } = useSavedJobs();
@@ -74,7 +75,12 @@ function SavedJobs() {
                 </div>
               </div>
               <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-50">
-                <span className="text-xs text-gray-400">{job.postedAt}</span>
+                <span className="text-xs text-gray-400">
+                  {" "}
+                  {formatDistanceToNow(new Date(job.postedAt), {
+                    addSuffix: true,
+                  })}
+                </span>
                 <span className="text-xs font-medium text-gray-700">
                   {job.salary}
                 </span>

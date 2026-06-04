@@ -1,10 +1,13 @@
 import { act, createContext, useContext, useEffect, useReducer } from "react";
 import { JOBS } from "../data/jobs";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 const SavedJobsContext = createContext();
 
+const saved = JSON.parse(localStorage.getItem("savedIds")) || [];
+
 const initialState = {
-  savedIds: [],
+  savedIds: saved,
 };
 
 function reducer(state, action) {
@@ -25,6 +28,9 @@ function reducer(state, action) {
 
 function SavedJobsProvider({ children }) {
   const [{ savedIds }, dispatch] = useReducer(reducer, initialState);
+  useEffect(() => {
+    localStorage.setItem("savedIds", JSON.stringify(savedIds));
+  }, [savedIds]);
 
   function save(jobId) {
     dispatch({ type: "save", payload: jobId });

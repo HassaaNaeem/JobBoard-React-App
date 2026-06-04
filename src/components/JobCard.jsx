@@ -1,3 +1,4 @@
+import { formatDistanceToNow } from "date-fns";
 import { useSavedJobs } from "../context/SavedJobsContext";
 
 function JobCard({ job }) {
@@ -59,7 +60,9 @@ function JobCard({ job }) {
       </div>
 
       <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-50">
-        <span className="text-xs text-gray-400">{job.postedAt}</span>
+        <span className="text-xs text-gray-400">
+          {formatDistanceToNow(new Date(job.postedAt), { addSuffix: true })}
+        </span>
         <span className="text-xs font-medium text-gray-700">{job.salary}</span>
       </div>
     </li>

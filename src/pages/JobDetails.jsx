@@ -1,12 +1,14 @@
 import { Link, useNavigate, useParams } from "react-router";
 import { JOBS } from "../data/jobs";
 import { useSavedJobs } from "../context/SavedJobsContext";
+import useJobs from "../hooks/useJobs";
 
 function JobDetails() {
   let { id } = useParams();
   const navigate = useNavigate();
   const { save, savedIds, unsave } = useSavedJobs();
-  const job = JOBS.find((job) => job.id == id);
+  const { data } = useJobs();
+  const job = data?.find((job) => job.id == id) || {};
 
   return (
     <div>

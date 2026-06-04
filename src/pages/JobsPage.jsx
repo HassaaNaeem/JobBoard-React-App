@@ -17,7 +17,7 @@ function JobsPage() {
   const category = searchParams.get("category") || "All";
   const debouncedValue = useDebounce(searchInput, 500);
 
-  const { isLoading, data, error } = useJobs();
+  const { isLoading, data, error, refetch } = useJobs();
 
   const filteredJobs = data
     ?.filter(
@@ -87,7 +87,7 @@ function JobsPage() {
           </p>
           <p className="text-xs text-gray-400 mb-4">Could not load jobs</p>
           <button
-            onClick={() => window.location.reload()}
+            onClick={() => refetch()}
             className="text-xs px-4 py-2 bg-gray-900 text-white cursor rounded-lg"
           >
             Try again

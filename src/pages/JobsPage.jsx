@@ -9,6 +9,7 @@ import useDebounce from "../hooks/useDebounce";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import fetchJobs from "../services/jobsApi";
 import useJobs from "../hooks/useJobs";
+import { motion } from "motion/react";
 
 function JobsPage() {
   const [searchInput, setSearchInput] = useState("");
@@ -18,6 +19,15 @@ function JobsPage() {
   const debouncedValue = useDebounce(searchInput, 500);
 
   const { isLoading, data, error, refetch } = useJobs();
+
+  const container = {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: 0.15,
+      },
+    },
+  };
 
   const filteredJobs = data
     ?.filter(
@@ -59,13 +69,18 @@ function JobsPage() {
       {isLoading ? (
         <SkeletonCard count={5} />
       ) : (
-        <ul className="space-y-3">
+        <motion.ul
+          variants={container}
+          initial="hidden"
+          animate="show"
+          className="space-y-3"
+        >
           {filteredJobs?.map((job) => (
             <Link to={`job/${job.id}`}>
               <JobCard key={job.id} job={job} />
             </Link>
           ))}
-        </ul>
+        </motion.ul>
       )}
 
       {filteredJobs == 0 && (
@@ -88,7 +103,7 @@ function JobsPage() {
           <p className="text-xs text-gray-400 mb-4">Could not load jobs</p>
           <button
             onClick={() => refetch()}
-            className="text-xs px-4 py-2 bg-gray-900 text-white cursor rounded-lg"
+            className="text-xs px-4 py-2 bg-gray-900 text-white cursor-pointer' rounded-lg"
           >
             Try again
           </button>

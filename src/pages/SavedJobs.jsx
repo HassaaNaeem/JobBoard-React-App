@@ -9,7 +9,7 @@ import { formatDistanceToNow } from "date-fns";
 function SavedJobs() {
   const { savedIds, unsave } = useSavedJobs();
   // const saved = JOBS.filter((job) => savedIds.includes(job.id)); // was not in saving order
-  const { data } = useJobs();
+  const { isLoading, data } = useJobs();
   const savedJobs = data?.filter((job) => savedIds.includes(job.id));
 
   return (
@@ -17,7 +17,9 @@ function SavedJobs() {
       <div className="mb-6">
         <h1 className="text-xl font-semibold text-gray-900">Saved Jobs</h1>
         <p className="text-sm text-gray-400 mt-1">
-          {savedJobs?.length} positions saved
+          {isLoading
+            ? "Loading Positions..."
+            : `${savedJobs?.length} positions saved`}
         </p>
       </div>
 

@@ -2,6 +2,7 @@ import { Link, useNavigate, useParams } from "react-router";
 import { JOBS } from "../data/jobs";
 import { useSavedJobs } from "../context/SavedJobsContext";
 import useJobs from "../hooks/useJobs";
+import { motion } from "motion/react";
 
 function JobDetails() {
   let { id } = useParams();
@@ -11,7 +12,11 @@ function JobDetails() {
   const job = data?.find((job) => job.id == id) || {};
 
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.55 }}
+    >
       <Link
         to={"/"}
         className="flex items-center gap-1.5 text-sm text-gray-400 mb-6 cursor-pointer hover:text-gray-900 transition-colors w-fit"
@@ -156,7 +161,7 @@ function JobDetails() {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

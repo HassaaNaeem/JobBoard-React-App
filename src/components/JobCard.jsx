@@ -1,10 +1,29 @@
 import { formatDistanceToNow } from "date-fns";
 import { useSavedJobs } from "../context/SavedJobsContext";
+import { motion } from "motion/react";
 
 function JobCard({ job }) {
   const { savedIds, save, unsave } = useSavedJobs();
+
+  const item = {
+    hidden: {
+      opacity: 0,
+      y: 12,
+    },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.55,
+        ease: "easeOut",
+      },
+    },
+  };
   return (
-    <li className="group bg-white rounded-2xl border border-gray-100 p-5 cursor-pointer hover:border-gray-200 hover:shadow-sm transition-all">
+    <motion.li
+      variants={item}
+      className="group bg-white rounded-2xl border border-gray-100 p-5 cursor-pointer hover:border-gray-200 hover:shadow-sm transition-all"
+    >
       <div className="flex items-start gap-4">
         <div className="w-11 h-11 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center text-sm font-semibold text-gray-600 shrink-0">
           {job.logo}
@@ -65,7 +84,7 @@ function JobCard({ job }) {
         </span>
         <span className="text-xs font-medium text-gray-700">{job.salary}</span>
       </div>
-    </li>
+    </motion.li>
   );
 }
 
